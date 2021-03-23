@@ -27,7 +27,7 @@ togglbutton.render(
       description: description,
       buttonType: 'minimal',
       // projectName: projectElem && projectElem.textContent
-      projectId: getProjectId
+      projectName: getProjectId()
     });
 
     container.appendChild(link);
@@ -62,7 +62,7 @@ togglbutton.render(
 
         return epic + getDescription(issueNumberElement)();
       },
-      projectId: getProjectId
+      projectName: getProjectId()
     });
 
     container.appendChild(link);
@@ -97,7 +97,7 @@ togglbutton.render(
 
         return epic + getDescription(issueNumberElement)();
       },
-      projectId: getProjectId
+      projectName: getProjectId()
     });
 
     container.appendChild(link);
@@ -176,8 +176,8 @@ togglbutton.render(
 
     const link = togglbutton.createTimerLink({
       className: 'jira2017',
-      description: description,
-      projectName: projectElem && projectElem.textContent.trim()
+      description: description
+      // projectName: projectElem && projectElem.textContent.trim()
     });
 
     link.style.marginLeft = '8px';
@@ -195,7 +195,7 @@ togglbutton.render('#ghx-detail-issue:not(.toggl)', { observe: true }, function 
   const container = createTag('div', 'ghx-toggl-button');
   const titleElem = $('[data-field-id="summary"]', elem);
   const numElem = $('.ghx-fieldname-issuekey a');
-  const projectElem = $('.ghx-project', elem);
+  // const projectElem = $('.ghx-project', elem);
   const epic = getEpic();
   let description = epic + titleElem.textContent;
   if (numElem !== null) {
@@ -204,8 +204,8 @@ togglbutton.render('#ghx-detail-issue:not(.toggl)', { observe: true }, function 
 
   const link = togglbutton.createTimerLink({
     className: 'jira',
-    description: description,
-    projectName: projectElem && projectElem.textContent
+    description: description
+    // projectName: projectElem && projectElem.textContent
   });
 
   container.appendChild(link);
@@ -220,7 +220,7 @@ togglbutton.render(
     let description;
     const numElem = $('#key-val', elem);
     const titleElem = $('#summary-val', elem) || '';
-    const projectElem = $('#project-name-val', elem);
+    // const projectElem = $('#project-name-val', elem);
     const epic = getEpic();
 
     if (titleElem) {
@@ -236,8 +236,8 @@ togglbutton.render(
 
     const link = togglbutton.createTimerLink({
       className: 'jira',
-      description: epic + description,
-      projectName: projectElem && projectElem.textContent
+      description: epic + description
+      // projectName: projectElem && projectElem.textContent
     });
 
     const ul = createTag('ul', 'toolbar-group');
@@ -268,9 +268,8 @@ function getEpic () {
   let epic = '';
   const breadcrumbs = document.querySelectorAll("#jira-issue-header [class^='BreadcrumbsItem_'] span > span");
   if (breadcrumbs && breadcrumbs.length > 1) {
-    epic = breadcrumbs[0].innerHTML + ' / ';
-    if (epic && epic.includes('Add Epic')) {
-      epic = '';
+    if (breadcrumbs[breadcrumbs.length - 2].innerHTML && breadcrumbs[breadcrumbs.length - 2].innerHTML.includes('-')) {
+      epic = breadcrumbs[breadcrumbs.length - 2].innerHTML + ' / ';
     }
   }
 
